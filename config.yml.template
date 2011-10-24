@@ -1,0 +1,4 @@
+geoloqi:
+  infochimps: your-infochimps-key
+  accessToken: your-geoloqi-application-access-token
+  layerID: geoloqi-layer-id
