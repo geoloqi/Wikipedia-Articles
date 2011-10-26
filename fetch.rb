@@ -59,6 +59,7 @@ info['locations'].each do |location|
     response = geoloqi.post 'place/create', {
       :layer_id => layerID,
       :name => article['name'], 
+      :description => article['abstract'],
       :latitude => article['coordinates'][1],
       :longitude => article['coordinates'][0],
       :radius => radius,
