@@ -58,8 +58,8 @@ info['locations'].each do |location|
     
     response = geoloqi.post 'place/create', {
       :layer_id => layerID,
-      :name => article['name'], 
-      :description => article['abstract'],
+      :name => (article['name'] || ''), 
+      :description => article['about'],
       :latitude => article['coordinates'][1],
       :longitude => article['coordinates'][0],
       :radius => radius,
@@ -102,9 +102,9 @@ info['locations'].each do |location|
     end
   }
   
+  File.open('pages.txt', 'w') {|file| file.write pages.join}
 end
 
-File.open('pages.txt', 'w') {|file| file.write pages.join}
 
 
 puts
