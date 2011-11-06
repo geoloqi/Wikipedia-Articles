@@ -14,15 +14,21 @@ pages = File.readlines('pages.txt')
 
 info = geoloqi.get 'layer/user_locations/' + layerID
 
+puts "================================================="
+puts "================================================="
+puts "================================================="
+
 if info['locations'].nil?
   exit!
 end
 
 newArticles = 0
 
-info['locations'].each do |location|
+info['locations'].each_with_index do |location,i|
   puts
   puts "==============="
+  puts "User " + i.to_s + "\n"
+  puts newArticles.to_s + " new articles added so far\n"
   puts location
 
   request = Chimps::QueryRequest.new('encyclopedic/wikipedia/dbpedia/wikipedia_articles/search', :query_params => {
@@ -32,6 +38,7 @@ info['locations'].each do |location|
   })
   
   response = request.get
+  next if response.body.nil?
   data = JSON.parse response.body
   
   data['results'].each{|article|
@@ -55,7 +62,9 @@ info['locations'].each do |location|
     elsif article['about'] =~ /is an? \w* ?building/
       radius = 120
     end
-    
+
+    next if article['about'].nil? || article['about'].empty? 
+ 
     response = geoloqi.post 'place/create', {
       :layer_id => layerID,
       :name => (article['name'] || ''), 
@@ -108,6 +117,10 @@ end
 
 
 puts
+puts "===================================="
+puts "===================================="
+puts "Complete!"
 puts newArticles.to_s + " new articles added"
+STDOUT.flush
 
 
