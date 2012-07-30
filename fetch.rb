@@ -19,12 +19,14 @@ puts "================================================="
 puts "================================================="
 
 if info['locations'].nil?
+  puts "Error finding user locations!"
   exit!
 end
 
 newArticles = 0
 
 info['locations'].each_with_index do |location,i|
+  next if i < 228
   puts
   puts "==============="
   puts "User " + i.to_s + "\n"
